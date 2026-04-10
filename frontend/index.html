@@ -1171,5 +1171,14 @@
         // Init
         document.addEventListener('DOMContentLoaded', () => { initializeData(); updateAuthUI(); loadFeaturedMenu(); });
     </script>
+    <script>
+fetch("https://jm-hub.onrender.com/")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("output").innerText = data;
+  })
+  .catch(err => console.log(err));
+</script>
+    
 </body>
 </html>
