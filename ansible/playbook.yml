@@ -1,0 +1,5 @@
+- hosts: localhost
+  tasks:
+    - name: Install nginx
+      debug:
+        msg: "Ansible running successfully"
