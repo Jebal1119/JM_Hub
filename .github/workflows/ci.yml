@@ -1,0 +1,5 @@
+- name: Build Backend
+  run: docker build -t backend-app ./backend
+
+- name: Build Frontend
+  run: docker build -t frontend-app ./frontend

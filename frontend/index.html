@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JM BUSINESS HUB - Restaurant and Travel Together</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Space Grotesk', 'sans-serif'],
+                        body: ['DM Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        bg: 'var(--bg)',
+                        fg: 'var(--fg)',
+                        muted: 'var(--muted)',
+                        accent: 'var(--accent)',
+                        card: 'var(--card)',
+                        border: 'var(--border)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --fg: #f5f5f7;
+            --muted: #6b7280;
+            --accent: #f59e0b;
+            --card: rgba(20, 20, 30, 0.8);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .font-display { font-family: 'Space Grotesk', sans-serif; }
+
+        .bg-gradient-main {
+            background: 
+                radial-gradient(ellipse 80% 50% at 20% -20%, rgba(245, 158, 11, 0.15), transparent),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(245, 158, 11, 0.1), transparent),
+                linear-gradient(180deg, #0a0a0f 0%, #12121a 50%, #0a0a0f 100%);
+        }
+
+        .bg-noise {
+            position: fixed;
+            inset: 0;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .glass {
+            background: var(--card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+        .animate-float { animation: float 6s ease-in-out infinite; }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #0a0a0f;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--fg);
+            font-weight: 500;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent);
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--fg);
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { transform: scale(0.9); transition: transform 0.3s ease; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 200;
+        }
+        .toast.active { transform: translateX(0); }
+        .toast.success { border-color: #22c55e; }
+        .toast.error { border-color: #ef4444; }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-accent { background: rgba(245, 158, 11, 0.2); color: var(--accent); }
+        .badge-green { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .badge-red { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .badge-blue { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+
+        .page { display: none; }
+        .page.active { display: block; }
+    </style>
+</head>
+<body class="bg-gradient-main">
+    <div class="bg-noise"></div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="#" onclick="navigate('home')" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
+                        <span class="font-display font-bold text-black text-lg">JM</span>
+                    </div>
+                    <div class="hidden sm:block">
+                        <span class="font-display font-bold text-lg">JM BUSINESS HUB</span>
+                    </div>
+                </a>
+
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#" onclick="navigate('home')" class="nav-link text-sm font-medium hover:text-accent">Home</a>
+                    <a href="#" onclick="navigate('travel')" class="nav-link text-sm font-medium hover:text-accent">Travel</a>
+                    <a href="#" onclick="navigate('restaurant')" class="nav-link text-sm font-medium hover:text-accent">Restaurant</a>
+                    <a href="#" onclick="navigate('contact')" class="nav-link text-sm font-medium hover:text-accent">Contact</a>
+                </div>
+
+                <div id="authButtons" class="flex items-center gap-4">
+                    <button onclick="openModal('loginModal')" class="btn-secondary text-sm hidden sm:block">Login</button>
+                    <button onclick="openModal('signupModal')" class="btn-primary text-sm">Register</button>
+                </div>
+
+                <div id="userMenu" class="hidden items-center gap-4">
+                    <div class="flex items-center gap-3 cursor-pointer" onclick="if(currentUser) navigate('dashboard')">
+                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center">
+                            <span id="userInitial" class="font-bold text-black text-sm">U</span>
+                        </div>
+                        <div class="hidden sm:block">
+                            <p id="userName" class="text-sm font-medium">User</p>
+                            <p id="userRole" class="text-xs text-muted">Customer</p>
+                        </div>
+                    </div>
+                    <button onclick="logout()" class="btn-secondary text-sm px-3 py-2">Logout</button>
+                </div>
+
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden glass border-t border-border">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#" onclick="navigate('home'); toggleMobileMenu()" class="block py-2 text-sm font-medium hover:text-accent">Home</a>
+                <a href="#" onclick="navigate('travel'); toggleMobileMenu()" class="block py-2 text-sm font-medium hover:text-accent">Travel</a>
+                <a href="#" onclick="navigate('restaurant'); toggleMobileMenu()" class="block py-2 text-sm font-medium hover:text-accent">Restaurant</a>
+                <a href="#" onclick="navigate('contact'); toggleMobileMenu()" class="block py-2 text-sm font-medium hover:text-accent">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-16">
+        <!-- Home Page -->
+        <div id="page-home" class="page active">
+            <!-- Hero Section -->
+            <section class="min-h-screen flex items-center relative overflow-hidden">
+                <div class="absolute inset-0">
+                    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl animate-float"></div>
+                    <div class="absolute bottom-1/4 right-1/4 w-80 h-80 bg-amber-600/10 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+                </div>
+
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="text-center">
+                        <p class="text-accent font-medium tracking-wider uppercase text-sm mb-4 opacity-0 animate-fade-in-up">Welcome to</p>
+                        <h1 class="font-display text-5xl sm:text-7xl lg:text-8xl font-bold mb-6 opacity-0 animate-fade-in-up stagger-1">
+                            JM BUSINESS <span class="text-accent">HUB</span>
+                        </h1>
+                        <p class="text-xl sm:text-2xl text-muted mb-12 max-w-2xl mx-auto opacity-0 animate-fade-in-up stagger-2">
+                            Restaurant and Travel Together
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-in-up stagger-3">
+                            <button onclick="navigate('travel')" class="btn-primary text-lg px-8 py-4">Explore Travel</button>
+                            <button onclick="navigate('restaurant')" class="btn-secondary text-lg px-8 py-4">View Menu</button>
+                        </div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 opacity-0 animate-fade-in-up stagger-4">
+                        <div class="glass rounded-2xl p-6 text-center card-hover">
+                            <p class="font-display text-3xl sm:text-4xl font-bold text-accent">500+</p>
+                            <p class="text-muted text-sm mt-2">Happy Customers</p>
+                        </div>
+                        <div class="glass rounded-2xl p-6 text-center card-hover">
+                            <p class="font-display text-3xl sm:text-4xl font-bold text-accent">4</p>
+                            <p class="text-muted text-sm mt-2">Premium Vehicles</p>
+                        </div>
+                        <div class="glass rounded-2xl p-6 text-center card-hover">
+                            <p class="font-display text-3xl sm:text-4xl font-bold text-accent">30+</p>
+                            <p class="text-muted text-sm mt-2">Menu Items</p>
+                        </div>
+                        <div class="glass rounded-2xl p-6 text-center card-hover">
+                            <p class="font-display text-3xl sm:text-4xl font-bold text-accent">24/7</p>
+                            <p class="text-muted text-sm mt-2">Support</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section class="py-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="font-display text-3xl sm:text-4xl font-bold mb-4">Our Services</h2>
+                        <p class="text-muted max-w-2xl mx-auto">Experience the best of both worlds with our integrated travel and restaurant services</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Travel Service -->
+                        <div class="glass rounded-3xl p-8 card-hover group cursor-pointer" onclick="navigate('travel')">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-600/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-display text-2xl font-bold mb-4">Travel Booking</h3>
+                            <p class="text-muted mb-6">Premium vehicles including Toyota Glanza, Innova, and Luxury Vans for comfortable journeys.</p>
+                        </div>
+
+                        <!-- Restaurant Service -->
+                        <div class="glass rounded-3xl p-8 card-hover group cursor-pointer" onclick="navigate('restaurant')">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/20 to-amber-600/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-display text-2xl font-bold mb-4">Restaurant</h3>
+                            <p class="text-muted mb-6">Authentic South Indian & Arabic cuisine. Biryani, Grill, Tandoori, Dosa and more. Dine-in or parcel available.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Menu on Home -->
+            <section class="py-20">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between mb-12">
+                        <div>
+                            <h2 class="font-display text-3xl sm:text-4xl font-bold mb-2">Popular Dishes</h2>
+                            <p class="text-muted">Customer favorites from our kitchen</p>
+                        </div>
+                        <button onclick="navigate('restaurant')" class="btn-secondary hidden sm:flex items-center gap-2">
+                            Full Menu
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                    <div id="featuredMenu" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Travel Page -->
+        <div id="page-travel" class="page">
+            <section class="py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="mb-12">
+                        <h1 class="font-display text-4xl sm:text-5xl font-bold mb-4">Travel Services</h1>
+                        <p class="text-muted text-lg">Book vehicles for your journeys</p>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="flex gap-4 mb-8 border-b border-border pb-4 overflow-x-auto">
+                        <button onclick="switchTravelTab('vehicles')" class="travel-tab px-6 py-2 rounded-lg font-medium transition-all whitespace-nowrap active" data-tab="vehicles">Vehicles</button>
+                        <button onclick="switchTravelTab('tickets')" class="travel-tab px-6 py-2 rounded-lg font-medium transition-all whitespace-nowrap" data-tab="tickets">Book Tickets</button>
+                        <button onclick="switchTravelTab('myBookings')" class="travel-tab px-6 py-2 rounded-lg font-medium transition-all whitespace-nowrap" data-tab="myBookings">My Bookings</button>
+                    </div>
+
+                    <!-- Vehicles Tab -->
+                    <div id="travel-vehicles" class="travel-content">
+                        <div class="glass rounded-2xl p-6 mb-8">
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <div class="flex-1">
+                                    <input type="text" id="vehicleSearch" placeholder="Search vehicles..." class="input-field" onkeyup="filterVehicles()">
+                                </div>
+                                <select id="vehicleTypeFilter" class="input-field sm:w-48" onchange="filterVehicles()">
+                                    <option value="">All Types</option>
+                                    <option value="Car">Car</option>
+                                    <option value="Van">Van</option>
+                                    <option value="MPV">MPV</option>
+                                    <option value="Bus">Bus</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div id="vehiclesGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                    </div>
+
+                    <!-- Tickets Tab -->
+                    <div id="travel-tickets" class="travel-content hidden">
+                        <div class="glass rounded-3xl p-8 max-w-2xl mx-auto">
+                            <h3 class="font-display text-2xl font-bold mb-6">Book Tickets</h3>
+                            <form id="ticketForm" onsubmit="submitTicketRequest(event)" class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Transport Type</label>
+                                    <select name="transportType" required class="input-field">
+                                        <option value="">Select Type</option>
+                                        <option value="Bus">Bus</option>
+                                        <option value="Train">Train</option>
+                                        <option value="Flight">Flight</option>
+                                    </select>
+                                </div>
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">From</label>
+                                        <input type="text" name="from" required class="input-field" placeholder="Departure City">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">To</label>
+                                        <input type="text" name="to" required class="input-field" placeholder="Destination City">
+                                    </div>
+                                </div>
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Date</label>
+                                        <input type="date" name="date" required class="input-field">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Passengers</label>
+                                        <input type="number" name="passengers" min="1" max="10" required class="input-field" placeholder="Number of passengers">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn-primary w-full">Submit Request</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- My Bookings Tab -->
+                    <div id="travel-myBookings" class="travel-content hidden">
+                        <div id="myBookingsList" class="space-y-4"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Restaurant Page -->
+        <div id="page-restaurant" class="page">
+            <section class="py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="mb-12">
+                        <h1 class="font-display text-4xl sm:text-5xl font-bold mb-4">JM Restaurant Menu</h1>
+                        <p class="text-muted text-lg">Authentic South Indian & Arabic Cuisine</p>
+                    </div>
+
+                    <!-- Cart Summary -->
+                    <div id="cartSummary" class="fixed bottom-6 right-6 z-40 hidden">
+                        <button onclick="openModal('cartModal')" class="btn-primary flex items-center gap-3 shadow-2xl">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                            <span id="cartCount">0</span> items
+                        </button>
+                    </div>
+
+                    <!-- Category Filter -->
+                    <div class="flex flex-wrap gap-3 mb-8">
+                        <button onclick="filterMenuByCategory('all')" class="menu-category-btn px-5 py-2 rounded-full text-sm font-medium transition-all bg-accent text-black" data-category="all">All</button>
+                        <button onclick="filterMenuByCategory('Biryani')" class="menu-category-btn px-5 py-2 rounded-full text-sm font-medium transition-all glass" data-category="Biryani">Biryani</button>
+                        <button onclick="filterMenuByCategory('Fried Rice')" class="menu-category-btn px-5 py-2 rounded-full text-sm font-medium transition-all glass" data-category="Fried Rice">Fried Rice</button>
+                        <button onclick="filterMenuByCategory('Fried Noodles')" class="menu-category-btn px-5 py-2 rounded-full text-sm font-medium transition-all glass" data-category="Fried Noodles">Fried Noodles</button>
+                        <button onclick="filterMenuByCategory('Grill & Tandoori')" class="menu-category-btn px-5 py-2 rounded-full text-sm font-medium transition-all glass" data-category="Grill & Tandoori">Grill & Tandoori</button>
+                        <button onclick="filterMenuByCategory('Gravy Items')" class="menu-category-btn px-5 py-2 rounded-full text-sm font-medium transition-all glass" data-category="Gravy Items">Gravy Items</button>
+                        <button onclick="filterMenuByCategory('Dry Items')" class="menu-category-btn px-5 py-2 rounded-full text-sm font-medium transition-all glass" data-category="Dry Items">Dry Items</button>
+                        <button onclick="filterMenuByCategory('Dosa Items')" class="menu-category-btn px-5 py-2 rounded-full text-sm font-medium transition-all glass" data-category="Dosa Items">Dosa</button>
+                        
+                    </div>
+
+                    <!-- Menu Grid -->
+                    <div id="menuGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+
+                    <!-- Note -->
+                    <div class="mt-12 text-center glass rounded-xl p-4 inline-block">
+                        <p class="text-accent font-medium">Parcel charges extra. Cool drinks & Ice creams available!</p>
+                    </div>
+
+                    <!-- Order History -->
+                    <div id="orderHistorySection" class="mt-16">
+                        <h3 class="font-display text-2xl font-bold mb-6">Order History</h3>
+                        <div id="orderHistory" class="space-y-4"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="page-contact" class="page">
+            <section class="py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="mb-12 text-center">
+                        <h1 class="font-display text-4xl sm:text-5xl font-bold mb-4">Contact Us</h1>
+                        <p class="text-muted text-lg">We're here to help you 24/7</p>
+                    </div>
+
+                    <div class="grid lg:grid-cols-2 gap-12">
+                        <!-- Contact Info -->
+                        <div class="space-y-8">
+                            <div class="glass rounded-3xl p-8">
+                                <h3 class="font-display text-2xl font-bold mb-6">Get in Touch</h3>
+                                <div class="space-y-6">
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center shrink-0">
+                                            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium mb-1">Phone</h4>
+                                            <p class="text-muted">+91 98943 86060</p>
+                                            <a href="tel:+919894386060" class="inline-flex items-center gap-2 text-accent hover:underline mt-2">Call Now</a>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center shrink-0">
+                                            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium mb-1">Address</h4>
+                                            <p class="text-muted">Karunya Nagar<br>Coimbatore, Tamil Nadu</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-8 pt-6 border-t border-border">
+                                    <h4 class="font-medium mb-4">Quick Actions</h4>
+                                    <div class="flex flex-wrap gap-3">
+                                        <a href="https://wa.me/919894386060" target="_blank" class="btn-secondary flex items-center gap-2 text-sm">
+                                            <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                            WhatsApp
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Form -->
+                        <div class="glass rounded-3xl p-8">
+                            <h3 class="font-display text-2xl font-bold mb-6">Send us a Message</h3>
+                            <form id="contactForm" onsubmit="submitContactForm(event)" class="space-y-6">
+                                <div class="grid sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Name</label>
+                                        <input type="text" name="name" required class="input-field" placeholder="Your name">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium mb-2">Phone</label>
+                                        <input type="tel" name="phone" required class="input-field" placeholder="Your phone">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Subject</label>
+                                    <select name="subject" required class="input-field">
+                                        <option value="">Select Subject</option>
+                                        <option value="Table Reservation">Table Reservation</option>
+                                        <option value="Travel Inquiry">Travel Inquiry</option>
+                                        <option value="Feedback">Feedback</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Message</label>
+                                    <textarea name="message" rows="4" required class="input-field" placeholder="Your message"></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary w-full">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Dashboard Page -->
+        <div id="page-dashboard" class="page">
+            <section class="py-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="mb-8">
+                        <h1 class="font-display text-4xl font-bold mb-2"><span id="dashboardTitle">Dashboard</span></h1>
+                        <p class="text-muted">Welcome back, <span id="dashboardUserName">User</span></p>
+                    </div>
+                    <div class="flex flex-wrap gap-3 mb-8"></div>
+                    <div id="dashboardContent"></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div id="loginModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'loginModal')">
+        <div class="modal-content glass rounded-3xl p-8 w-full max-w-md mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-display text-2xl font-bold">Welcome Back</h2>
+                <button onclick="closeModal('loginModal')" class="p-2 hover:bg-white/10 rounded-lg transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+            </div>
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-6">
+                <div><label class="block text-sm font-medium mb-2">Email</label><input type="email" name="email" required class="input-field" placeholder="Enter your email"></div>
+                <div><label class="block text-sm font-medium mb-2">Password</label><input type="password" name="password" required class="input-field" placeholder="Enter your password"></div>
+                <button type="submit" class="btn-primary w-full">Login</button>
+            </form>
+            <p class="text-center text-muted text-sm mt-6">Don't have an account? <a href="#" onclick="switchModal('loginModal', 'signupModal')" class="text-accent hover:underline">Register</a></p>
+        </div>
+    </div>
+
+    <div id="signupModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'signupModal')">
+        <div class="modal-content glass rounded-3xl p-8 w-full max-w-md mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-display text-2xl font-bold">Create Account</h2>
+                <button onclick="closeModal('signupModal')" class="p-2 hover:bg-white/10 rounded-lg transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+            </div>
+            <form id="signupForm" onsubmit="handleSignup(event)" class="space-y-6">
+                <div><label class="block text-sm font-medium mb-2">Full Name</label><input type="text" name="name" required class="input-field" placeholder="Enter your name"></div>
+                <div><label class="block text-sm font-medium mb-2">Email</label><input type="email" name="email" required class="input-field" placeholder="Enter your email"></div>
+                <div><label class="block text-sm font-medium mb-2">Password</label><input type="password" name="password" required minlength="6" class="input-field" placeholder="Create a password"></div>
+                <div><label class="block text-sm font-medium mb-2">Role</label><select name="role" required class="input-field"><option value="Customer">Customer</option><option value="Manager">Manager</option></select></div>
+                <button type="submit" class="btn-primary w-full">Create Account</button>
+            </form>
+            <p class="text-center text-muted text-sm mt-6">Already have an account? <a href="#" onclick="switchModal('signupModal', 'loginModal')" class="text-accent hover:underline">Login</a></p>
+        </div>
+    </div>
+
+    <div id="bookingModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'bookingModal')">
+        <div class="modal-content glass rounded-3xl p-8 w-full max-w-lg mx-4">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-display text-2xl font-bold">Book Vehicle</h2>
+                <button onclick="closeModal('bookingModal')" class="p-2 hover:bg-white/10 rounded-lg transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+            </div>
+            <form id="bookingForm" onsubmit="handleBooking(event)" class="space-y-6">
+                <input type="hidden" name="vehicleId" id="bookingVehicleId">
+                <div id="bookingVehicleInfo" class="glass rounded-xl p-4 mb-4"></div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div><label class="block text-sm font-medium mb-2">Pickup Date</label><input type="date" name="pickupDate" required class="input-field"></div>
+                    <div><label class="block text-sm font-medium mb-2">Return Date</label><input type="date" name="returnDate" required class="input-field"></div>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div><label class="block text-sm font-medium mb-2">Pickup Time</label><input type="time" name="pickupTime" required class="input-field"></div>
+                    <div><label class="block text-sm font-medium mb-2">Location</label><input type="text" name="pickupLocation" required class="input-field" placeholder="Enter location"></div>
+                </div>
+                <div><label class="block text-sm font-medium mb-2">Destination</label><input type="text" name="destination" required class="input-field" placeholder="Enter destination"></div>
+                <button type="submit" class="btn-primary w-full">Confirm Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="cartModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'cartModal')">
+        <div class="modal-content glass rounded-3xl p-8 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="font-display text-2xl font-bold">Your Cart</h2>
+                <button onclick="closeModal('cartModal')" class="p-2 hover:bg-white/10 rounded-lg transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+            </div>
+            <div id="cartItems" class="space-y-4 mb-6"></div>
+            <div id="cartTotal" class="border-t border-border pt-4 mb-6"></div>
+            <button onclick="placeOrder()" class="btn-primary w-full" id="placeOrderBtn">Place Order</button>
+        </div>
+    </div>
+
+    <div id="manageModal" class="modal-overlay" onclick="closeModalOnOverlay(event, 'manageModal')">
+        <div class="modal-content glass rounded-3xl p-8 w-full max-w-lg mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h2 id="manageModalTitle" class="font-display text-2xl font-bold">Add Item</h2>
+                <button onclick="closeModal('manageModal')" class="p-2 hover:bg-white/10 rounded-lg transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
+            </div>
+            <form id="manageForm" onsubmit="handleManageSubmit(event)" class="space-y-6"></form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"><div class="flex items-center gap-3"><div id="toastIcon"></div><p id="toastMessage">Message</p></div></div>
+
+    <!-- Footer -->
+    <footer class="glass border-t border-border mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center"><span class="font-display font-bold text-black text-lg">JM</span></div>
+                        <span class="font-display font-bold">JM BUSINESS HUB</span>
+                    </div>
+                    <p class="text-muted text-sm">Restaurant and Travel Together - Your one-stop solution for travel bookings and fine dining.</p>
+                </div>
+                <div>
+                    <h4 class="font-display font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li><a href="#" onclick="navigate('home')" class="hover:text-accent transition-colors">Home</a></li>
+                        <li><a href="#" onclick="navigate('travel')" class="hover:text-accent transition-colors">Travel</a></li>
+                        <li><a href="#" onclick="navigate('restaurant')" class="hover:text-accent transition-colors">Restaurant</a></li>
+                        <li><a href="#" onclick="navigate('contact')" class="hover:text-accent transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-display font-bold mb-4">Services</h4>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>Vehicle Rentals</li>
+                        <li>Ticket Booking</li>
+                        <li>Restaurant Dining</li>
+                        <li>Online Orders</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-display font-bold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-sm text-muted">
+                        <li>+91 98943 86060</li>
+                        <li>Karunya Nagar, Coimbatore</li>
+                        <li>Tamil Nadu, India</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-border mt-8 pt-8 text-center text-muted text-sm"><p>2024 JM BUSINESS HUB. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <script>
+        // ==========================================
+        // DATA INITIALIZATION - UPDATED IMAGES
+        // ==========================================
+        
+        function initializeData() {
+            if (!localStorage.getItem('jm_users')) {
+                const defaultUsers = [
+                    { id: 'admin_001', name: 'Admin User', email: 'admin@jmhub.com', password: 'admin123', role: 'Admin', createdAt: new Date().toISOString() },
+                    { id: 'manager_001', name: 'Manager User', email: 'manager@jmhub.com', password: 'manager123', role: 'Manager', createdAt: new Date().toISOString() },
+                    { id: 'customer_001', name: 'John Doe', email: 'customer@jmhub.com', password: 'customer123', role: 'Customer', createdAt: new Date().toISOString() }
+                ];
+                localStorage.setItem('jm_users', JSON.stringify(defaultUsers));
+            }
+
+            // UPDATED VEHICLES WITH USER PROVIDED IMAGES
+            if (!localStorage.getItem('jm_vehicles')) {
+                const defaultVehicles = [
+                    { 
+                        id: 'v_001', 
+                        type: 'Car', 
+                        name: 'Toyota Glanza', 
+                        capacity: 5, 
+                        pricePerDay: 1800, 
+                        image: 'https://z-cdn-media.chatglm.cn/files/5657ed54-552e-4ae8-9d02-580b88e85f11.jpeg?auth_key=1874973156-225162a7a12e43869b6265ac110adb95-0-f6e5adbe7c5b8f6ffce5ba2fb8346618', 
+                        features: ['AC', 'Music System', 'Power Steering'], 
+                        available: true 
+                    },
+                    { 
+                        id: 'v_002', 
+                        type: 'Van', 
+                        name: 'Luxury Travel Van', 
+                        capacity: 12, 
+                        pricePerDay: 4000, 
+                        image: 'https://z-cdn-media.chatglm.cn/files/19b2c317-a31c-46c6-917d-fc2468896f20.jpeg?auth_key=1874973156-520ea70d076a48959770f27d20ef76d4-0-f6b9ab4b5928dadde1c834c4adc8da48', 
+                        features: ['AC', 'Push Back Seats', 'Music', 'LED TV'], 
+                        available: true 
+                    },
+                    { 
+                        id: 'v_003', 
+                        type: 'MPV', 
+                        name: 'Toyota Innova Crysta', 
+                        capacity: 7, 
+                        pricePerDay: 2800, 
+                        image: 'https://z-cdn-media.chatglm.cn/files/504a2e32-4ff2-48df-870c-7a9cd8a52004.jpeg?auth_key=1874973156-deb336bb884a41a5b54282b39a72afd4-0-6cc00e64547b3cecb59e149831e0b6a2', 
+                        features: ['AC', 'GPS', 'Spacious', 'Premium Interior'], 
+                        available: true 
+                    },
+                    { 
+                        id: 'v_004', 
+                        type: 'Bus', 
+                        name: 'SML Isuzu Maxi Cab', 
+                        capacity: 18, 
+                        pricePerDay: 5000, 
+                        image: 'https://z-cdn-media.chatglm.cn/files/c51ea694-4f56-4df2-bcaf-fff92a70372d.jpeg?auth_key=1874973156-80c6042688004bed927490ad560130f4-0-d0e6aa9b122c658b8e3eda2931077fdc', 
+                        features: ['AC', 'Large Capacity', 'Comfortable Seats'], 
+                        available: true 
+                    }
+                ];
+                localStorage.setItem('jm_vehicles', JSON.stringify(defaultVehicles));
+            }
+
+            // UPDATED MENU WITH SPECIFIC IMAGES
+            const defaultMenu = [
+                // BIRYANI
+                { id: 'm_101', name: 'Chicken Biryani', price: 140, category: 'Biryani', image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&h=300&fit=crop', special: true, available: true },
+                { id: 'm_102', name: 'Mutton Biryani', price: 170, category: 'Biryani', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=400&h=300&fit=crop', special: false, available: true },
+                // VEG BIRYANI - UPDATED IMAGE
+                { id: 'm_103', name: 'Veg Biryani', price: 100, category: 'Biryani', image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=300&fit=crop', special: false, available: true },
+
+                // FRIED RICE
+                { id: 'm_201', name: 'Chicken Fried Rice', price: 130, category: 'Fried Rice', image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_202', name: 'Egg Fried Rice', price: 110, category: 'Fried Rice', image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_203', name: 'Veg Fried Rice', price: 100, category: 'Fried Rice', image: 'https://images.unsplash.com/photo-1604909052743-94e838986d24?w=400&h=300&fit=crop', special: false, available: true },
+
+                // FRIED NOODLES
+                { id: 'm_301', name: 'Chicken Fried Noodles', price: 130, category: 'Fried Noodles', image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_302', name: 'Egg Fried Noodles', price: 110, category: 'Fried Noodles', image: 'https://images.unsplash.com/photo-1555126634-323283e090fa?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_303', name: 'Veg Fried Noodles', price: 100, category: 'Fried Noodles', image: 'https://images.unsplash.com/photo-1552611052-33e04de081de?w=400&h=300&fit=crop', special: false, available: true },
+
+                // GRILL & TANDOORI
+                { id: 'm_401', name: 'Half Tandoori Chicken', price: 180, category: 'Grill & Tandoori', image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_402', name: 'Full Tandoori Chicken', price: 350, category: 'Grill & Tandoori', image: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=400&h=300&fit=crop', special: true, available: true },
+                { id: 'm_403', name: 'Half Alfaham', price: 200, category: 'Grill & Tandoori', image: 'https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_404', name: 'Full Alfaham', price: 400, category: 'Grill & Tandoori', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=300&fit=crop', special: true, available: true },
+
+                // GRAVY ITEMS - UPDATED PEPPER CHICKEN GRAVY
+                { id: 'm_501', name: 'Hyderabadi Chicken Gravy', price: 140, category: 'Gravy Items', image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_502', name: 'Chicken Chettinad', price: 140, category: 'Gravy Items', image: 'https://images.unsplash.com/photo-1574653853027-5382a3d23a15?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_503', name: 'Kadai Chicken', price: 140, category: 'Gravy Items', image: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_504', name: 'Butter Chicken', price: 150, category: 'Gravy Items', image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=400&h=300&fit=crop', special: true, available: true },
+                { id: 'm_505', name: 'Chicken Masala', price: 130, category: 'Gravy Items', image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=300&fit=crop', special: false, available: true },
+                // PEPPER CHICKEN GRAVY - UPDATED IMAGE
+                { id: 'm_506', name: 'Pepper Chicken (Gravy)', price: 130, category: 'Gravy Items', image: 'https://images.unsplash.com/photo-1606503825008-909a67e63c3d?w=400&h=300&fit=crop', special: false, available: true },
+
+                // DRY ITEMS - UPDATED IMAGES
+                { id: 'm_601', name: 'Chilly Chicken Dry', price: 140, category: 'Dry Items', image: 'https://images.unsplash.com/photo-1525755662778-989d0524087e?w=400&h=300&fit=crop', special: false, available: true },
+                // PEPPER CHICKEN DRY - UPDATED IMAGE
+                { id: 'm_602', name: 'Pepper Chicken Dry', price: 130, category: 'Dry Items', image: 'https://images.unsplash.com/photo-1606503825008-909a67e63c3d?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_603', name: 'Chicken 65', price: 130, category: 'Dry Items', image: 'https://images.unsplash.com/photo-1610057099443-fde8c4d50f91?w=400&h=300&fit=crop', special: true, available: true },
+                // GINGER CHICKEN - UPDATED IMAGE
+                { id: 'm_604', name: 'Ginger Chicken', price: 130, category: 'Dry Items', image: 'https://images.unsplash.com/photo-1585442245541-c44f4c5d5a70?w=400&h=300&fit=crop', special: false, available: true },
+
+                // DOSA ITEMS
+                { id: 'm_701', name: 'Plain Dosa', price: 40, category: 'Dosa Items', image: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_702', name: 'Masala Dosa', price: 50, category: 'Dosa Items', image: 'https://images.unsplash.com/photo-1567337710282-00832b415979?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_703', name: 'Onion Dosa', price: 50, category: 'Dosa Items', image: 'https://images.unsplash.com/photo-1630383249896-424e482df921?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_704', name: 'Ghee Roast', price: 60, category: 'Dosa Items', image: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_705', name: 'Egg Dosa', price: 60, category: 'Dosa Items', image: 'https://images.unsplash.com/photo-1630383249896-424e482df921?w=400&h=300&fit=crop', special: false, available: true },
+                { id: 'm_706', name: 'Kali Dosa', price: 60, category: 'Dosa Items', image: 'https://images.unsplash.com/photo-1567337710282-00832b415979?w=400&h=300&fit=crop', special: false, available: true }
+            ];
+            
+            localStorage.setItem('jm_menuItems', JSON.stringify(defaultMenu));
+
+            if (!localStorage.getItem('jm_bookings')) localStorage.setItem('jm_bookings', JSON.stringify([]));
+            if (!localStorage.getItem('jm_orders')) localStorage.setItem('jm_orders', JSON.stringify([]));
+            if (!localStorage.getItem('jm_ticketRequests')) localStorage.setItem('jm_ticketRequests', JSON.stringify([]));
+        }
+
+        let cart = JSON.parse(localStorage.getItem('jm_cart')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('jm_currentUser')) || null;
+
+        // ==========================================
+        // CORE FUNCTIONS
+        // ==========================================
+        
+        function handleLogin(event) {
+            event.preventDefault();
+            const form = event.target;
+            const users = JSON.parse(localStorage.getItem('jm_users')) || [];
+            const user = users.find(u => u.email === form.email.value && u.password === form.password.value);
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('jm_currentUser', JSON.stringify(user));
+                closeModal('loginModal');
+                updateAuthUI();
+                showToast('Welcome back, ' + user.name + '!', 'success');
+                form.reset();
+            } else {
+                showToast('Invalid credentials', 'error');
+            }
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            const form = event.target;
+            const users = JSON.parse(localStorage.getItem('jm_users')) || [];
+            if (users.find(u => u.email === form.email.value)) { showToast('Email exists', 'error'); return; }
+            const newUser = { id: 'user_' + Date.now(), name: form.name.value, email: form.email.value, password: form.password.value, role: form.role.value, createdAt: new Date().toISOString() };
+            users.push(newUser);
+            localStorage.setItem('jm_users', JSON.stringify(users));
+            currentUser = newUser;
+            localStorage.setItem('jm_currentUser', JSON.stringify(newUser));
+            closeModal('signupModal');
+            updateAuthUI();
+            showToast('Account created!', 'success');
+            form.reset();
+        }
+
+        function logout() { currentUser = null; localStorage.removeItem('jm_currentUser'); updateAuthUI(); navigate('home'); showToast('Logged out', 'success'); }
+
+        function updateAuthUI() {
+            const authButtons = document.getElementById('authButtons');
+            const userMenu = document.getElementById('userMenu');
+            if (currentUser) {
+                authButtons.classList.add('hidden');
+                userMenu.classList.remove('hidden'); userMenu.classList.add('flex');
+                document.getElementById('userInitial').textContent = currentUser.name.charAt(0).toUpperCase();
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userRole').textContent = currentUser.role;
+            } else {
+                authButtons.classList.remove('hidden');
+                userMenu.classList.add('hidden'); userMenu.classList.remove('flex');
+            }
+        }
+
+        function navigate(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + page).classList.add('active');
+            switch(page) {
+                case 'home': loadFeaturedMenu(); break;
+                case 'travel': loadVehicles(); loadMyBookings(); break;
+                case 'restaurant': loadMenu(); loadOrderHistory(); updateCartUI(); break;
+                case 'dashboard': if (!currentUser) { openModal('loginModal'); return; } loadDashboard(); break;
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ==========================================
+        // TRAVEL LOGIC
+        // ==========================================
+        
+        function loadVehicles() {
+            const vehicles = JSON.parse(localStorage.getItem('jm_vehicles')) || [];
+            document.getElementById('vehiclesGrid').innerHTML = vehicles.map(v => `
+                <div class="glass rounded-2xl overflow-hidden card-hover">
+                    <div class="aspect-video relative overflow-hidden">
+                        <img src="${v.image}" alt="${v.name}" class="w-full h-full object-cover">
+                        <div class="absolute top-4 left-4"><span class="badge badge-accent">${v.type}</span></div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold mb-2">${v.name}</h3>
+                        <p class="text-muted text-sm mb-2">${v.capacity} seats</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${v.features.map(f => `<span class="text-xs px-2 py-1 rounded-full glass">${f}</span>`).join('')}
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div><span class="text-2xl font-bold text-accent">₹${v.pricePerDay}</span><span class="text-muted text-sm">/day</span></div>
+                            <button onclick="openBookingModal('${v.id}')" class="btn-primary text-sm">Book</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openBookingModal(id) {
+            if (!currentUser) { openModal('loginModal'); return; }
+            const v = (JSON.parse(localStorage.getItem('jm_vehicles')) || []).find(x => x.id === id);
+            if(!v) return;
+            document.getElementById('bookingVehicleId').value = id;
+            document.getElementById('bookingVehicleInfo').innerHTML = `<div class="flex gap-4"><img src="${v.image}" class="w-20 h-16 rounded-lg object-cover"><div><h4 class="font-bold">${v.name}</h4><p class="text-accent">₹${v.pricePerDay}/day</p></div></div>`;
+            openModal('bookingModal');
+        }
+
+        function handleBooking(e) {
+            e.preventDefault();
+            const form = e.target;
+            const vehicles = JSON.parse(localStorage.getItem('jm_vehicles')) || [];
+            const v = vehicles.find(x => x.id === form.vehicleId.value);
+            const days = Math.ceil((new Date(form.returnDate.value) - new Date(form.pickupDate.value)) / (1000*60*60*24)) + 1;
+            const booking = { id: 'b_'+Date.now(), userId: currentUser.id, userName: currentUser.name, vehicleId: form.vehicleId.value, vehicleName: v ? v.name : 'Unknown', pickupDate: form.pickupDate.value, returnDate: form.returnDate.value, pickupTime: form.pickupTime.value, pickupLocation: form.pickupLocation.value, destination: form.destination.value, totalAmount: v ? v.pricePerDay * Math.max(1, days) : 0, status: 'Pending', createdAt: new Date().toISOString() };
+            const bookings = JSON.parse(localStorage.getItem('jm_bookings')) || [];
+            bookings.push(booking);
+            localStorage.setItem('jm_bookings', JSON.stringify(bookings));
+            closeModal('bookingModal'); form.reset(); showToast('Booked!', 'success'); loadMyBookings();
+        }
+
+        function loadMyBookings() {
+            const container = document.getElementById('myBookingsList');
+            if(!currentUser) { container.innerHTML = '<p class="text-muted text-center py-8">Login to view</p>'; return; }
+            const bookings = (JSON.parse(localStorage.getItem('jm_bookings')) || []).filter(b => b.userId === currentUser.id);
+            if(bookings.length === 0) { container.innerHTML = '<p class="text-muted text-center py-8">No bookings</p>'; return; }
+            container.innerHTML = bookings.reverse().map(b => `<div class="glass rounded-2xl p-6 flex justify-between items-center"><div><h4 class="font-bold">${b.vehicleName}</h4><p class="text-sm text-muted">${b.pickupDate} to ${b.returnDate}</p></div><div class="text-right"><p class="text-accent font-bold">₹${b.totalAmount}</p><span class="badge ${getStatusBadgeClass(b.status)}">${b.status}</span></div></div>`).join('');
+        }
+
+        function filterVehicles() {
+            const search = document.getElementById('vehicleSearch').value.toLowerCase();
+            const type = document.getElementById('vehicleTypeFilter').value;
+            const vehicles = (JSON.parse(localStorage.getItem('jm_vehicles')) || []).filter(v => (v.name.toLowerCase().includes(search)) && (!type || v.type === type));
+            document.getElementById('vehiclesGrid').innerHTML = vehicles.map(v => `<div class="glass rounded-2xl overflow-hidden card-hover"><div class="aspect-video relative overflow-hidden"><img src="${v.image}" alt="${v.name}" class="w-full h-full object-cover"></div><div class="p-6"><h3 class="font-display text-xl font-bold mb-2">${v.name}</h3><p class="text-muted text-sm mb-2">${v.capacity} seats</p><div class="flex items-center justify-between"><div><span class="text-2xl font-bold text-accent">₹${v.pricePerDay}</span><span class="text-muted text-sm">/day</span></div><button onclick="openBookingModal('${v.id}')" class="btn-primary text-sm">Book</button></div></div></div>`).join('');
+        }
+
+        function submitTicketRequest(e) { e.preventDefault(); if(!currentUser) { openModal('loginModal'); return; } showToast('Request submitted!', 'success'); e.target.reset(); }
+        function switchTravelTab(tab) {
+            document.querySelectorAll('.travel-tab').forEach(t => t.classList.remove('bg-accent', 'text-black'));
+            document.querySelector(`.travel-tab[data-tab="${tab}"]`).classList.add('bg-accent', 'text-black');
+            document.querySelectorAll('.travel-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById('travel-' + tab).classList.remove('hidden');
+        }
+
+        // ==========================================
+        // RESTAURANT LOGIC
+        // ==========================================
+        
+        function loadMenu() {
+            const menuItems = JSON.parse(localStorage.getItem('jm_menuItems')) || [];
+            renderMenuGrid(menuItems);
+        }
+
+        function renderMenuGrid(items) {
+            document.getElementById('menuGrid').innerHTML = items.map(item => `
+                <div class="glass rounded-2xl overflow-hidden card-hover">
+                    <div class="aspect-square relative overflow-hidden">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+                        ${item.special ? '<div class="absolute top-4 left-4"><span class="badge badge-accent">Special</span></div>' : ''}
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-display font-bold">${item.name}</h4>
+                        <p class="text-xs text-muted mb-2">${item.category}</p>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="text-xl font-bold text-accent">₹${item.price}</span>
+                            <button onclick="addToCart('${item.id}')" class="btn-primary text-sm px-3 py-1">Add</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadFeaturedMenu() {
+            const menuItems = (JSON.parse(localStorage.getItem('jm_menuItems')) || []).filter(item => item.special).slice(0, 4);
+            document.getElementById('featuredMenu').innerHTML = menuItems.map(item => `
+                <div class="glass rounded-2xl overflow-hidden card-hover">
+                    <div class="aspect-square relative overflow-hidden"><img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover"></div>
+                    <div class="p-4"><h4 class="font-display font-bold mb-1">${item.name}</h4><p class="text-lg font-bold text-accent">₹${item.price}</p></div>
+                </div>
+            `).join('');
+        }
+
+        function filterMenuByCategory(category) {
+            const menuItems = JSON.parse(localStorage.getItem('jm_menuItems')) || [];
+            document.querySelectorAll('.menu-category-btn').forEach(btn => {
+                btn.classList.remove('bg-accent', 'text-black'); btn.classList.add('glass');
+                if (btn.dataset.category === category) { btn.classList.add('bg-accent', 'text-black'); btn.classList.remove('glass'); }
+            });
+            const filtered = category === 'all' ? menuItems : menuItems.filter(item => item.category === category);
+            renderMenuGrid(filtered);
+        }
+
+        function addToCart(itemId) {
+            const item = (JSON.parse(localStorage.getItem('jm_menuItems')) || []).find(m => m.id === itemId);
+            if(!item) return;
+            const existing = cart.find(c => c.id === itemId);
+            if(existing) existing.quantity++;
+            else cart.push({ id: item.id, name: item.name, price: item.price, image: item.image, quantity: 1 });
+            saveCart(); updateCartUI(); showToast('Added ' + item.name, 'success');
+        }
+
+        function removeFromCart(id) { cart = cart.filter(c => c.id !== id); saveCart(); updateCartUI(); renderCartModal(); }
+        function updateCartQuantity(id, delta) {
+            const item = cart.find(c => c.id === id);
+            if(item) { item.quantity += delta; if(item.quantity <= 0) { removeFromCart(id); return; } }
+            saveCart(); updateCartUI(); renderCartModal();
+        }
+        function saveCart() { localStorage.setItem('jm_cart', JSON.stringify(cart)); }
+        function updateCartUI() {
+            const total = cart.reduce((s, i) => s + i.quantity, 0);
+            if(total > 0) { document.getElementById('cartSummary').classList.remove('hidden'); document.getElementById('cartCount').textContent = total; }
+            else document.getElementById('cartSummary').classList.add('hidden');
+        }
+
+        function renderCartModal() {
+            const container = document.getElementById('cartItems');
+            const totalContainer = document.getElementById('cartTotal');
+            const btn = document.getElementById('placeOrderBtn');
+            if(cart.length === 0) { container.innerHTML = '<p class="text-muted text-center py-8">Cart empty</p>'; totalContainer.innerHTML = ''; btn.disabled = true; btn.classList.add('opacity-50'); return; }
+            btn.disabled = false; btn.classList.remove('opacity-50');
+            container.innerHTML = cart.map(item => `
+                <div class="flex items-center gap-4 glass rounded-xl p-3">
+                    <img src="${item.image}" class="w-16 h-16 object-cover rounded-lg">
+                    <div class="flex-1"><h4 class="font-medium">${item.name}</h4><p class="text-accent font-bold">₹${item.price}</p></div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="updateCartQuantity('${item.id}', -1)" class="w-8 h-8 rounded-full glass flex items-center justify-center">-</button>
+                        <span class="w-8 text-center">${item.quantity}</span>
+                        <button onclick="updateCartQuantity('${item.id}', 1)" class="w-8 h-8 rounded-full glass flex items-center justify-center">+</button>
+                    </div>
+                </div>
+            `).join('');
+            const total = cart.reduce((s, i) => s + (i.price * i.quantity), 0);
+            totalContainer.innerHTML = `<div class="flex justify-between text-lg"><span>Total:</span><span class="text-accent text-2xl font-bold">₹${total}</span></div>`;
+        }
+
+        function placeOrder() {
+            if(!currentUser) { closeModal('cartModal'); openModal('loginModal'); showToast('Login to order', 'error'); return; }
+            const order = { id: 'o_'+Date.now(), userId: currentUser.id, userName: currentUser.name, items: [...cart], total: cart.reduce((s,i) => s + (i.price * i.quantity), 0), status: 'Pending', createdAt: new Date().toISOString() };
+            const orders = JSON.parse(localStorage.getItem('jm_orders')) || [];
+            orders.push(order); localStorage.setItem('jm_orders', JSON.stringify(orders));
+            cart = []; saveCart(); updateCartUI(); closeModal('cartModal'); showToast('Order placed!', 'success'); loadOrderHistory();
+        }
+
+        function loadOrderHistory() {
+            const container = document.getElementById('orderHistory');
+            if(!currentUser) { container.innerHTML = '<p class="text-muted text-center py-8">Login to view orders</p>'; return; }
+            const orders = (JSON.parse(localStorage.getItem('jm_orders')) || []).filter(o => o.userId === currentUser.id);
+            if(orders.length === 0) { container.innerHTML = '<p class="text-muted text-center py-8">No orders</p>'; return; }
+            container.innerHTML = orders.reverse().map(o => `
+                <div class="glass rounded-2xl p-6 flex justify-between items-center">
+                    <div><h4 class="font-bold">Order #${o.id.slice(-8)}</h4><p class="text-sm text-muted">${o.items.length} items</p></div>
+                    <div class="text-right"><p class="text-accent font-bold">₹${o.total}</p><span class="badge ${getStatusBadgeClass(o.status)}">${o.status}</span></div>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================
+        // DASHBOARD & UTILITIES
+        // ==========================================
+        
+        function loadDashboard() {
+            document.getElementById('dashboardTitle').textContent = currentUser.role + ' Dashboard';
+            document.getElementById('dashboardUserName').textContent = currentUser.name;
+            let nav = [];
+            if (currentUser.role === 'Admin') nav = [{id:'overview',label:'Overview'},{id:'users',label:'Users'},{id:'allBookings',label:'Bookings'},{id:'allOrders',label:'Orders'}];
+            else if (currentUser.role === 'Manager') nav = [{id:'overview',label:'Overview'},{id:'vehicles',label:'Vehicles'},{id:'menuItems',label:'Menu'},{id:'orders',label:'Orders'}];
+            else nav = [{id:'overview',label:'Activity'},{id:'myBookings',label:'Bookings'},{id:'myOrders',label:'Orders'}];
+            document.querySelector('#page-dashboard .flex.flex-wrap').innerHTML = nav.map(n => `<button onclick="loadDashboardSection('${n.id}')" class="dashboard-nav-btn px-5 py-2 rounded-lg font-medium transition-all glass" data-section="${n.id}">${n.label}</button>`).join('');
+            loadDashboardSection('overview');
+        }
+
+        function loadDashboardSection(sec) {
+            document.querySelectorAll('.dashboard-nav-btn').forEach(b => { b.classList.remove('bg-accent', 'text-black'); if(b.dataset.section === sec) b.classList.add('bg-accent', 'text-black'); });
+            const fn = window['render_' + sec]; if(typeof fn === 'function') fn();
+        }
+
+        function render_overview() {
+            const users = JSON.parse(localStorage.getItem('jm_users')) || [];
+            const bookings = JSON.parse(localStorage.getItem('jm_bookings')) || [];
+            const orders = JSON.parse(localStorage.getItem('jm_orders')) || [];
+            const content = document.getElementById('dashboardContent');
+            if(currentUser.role === 'Admin') {
+                const rev = orders.reduce((s,o) => s+o.total, 0) + bookings.reduce((s,b) => s+(b.totalAmount||0), 0);
+                content.innerHTML = `<div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="glass rounded-2xl p-6"><p class="text-muted text-sm">Users</p><p class="font-display text-3xl font-bold">${users.length}</p></div>
+                    <div class="glass rounded-2xl p-6"><p class="text-muted text-sm">Bookings</p><p class="font-display text-3xl font-bold">${bookings.length}</p></div>
+                    <div class="glass rounded-2xl p-6"><p class="text-muted text-sm">Orders</p><p class="font-display text-3xl font-bold">${orders.length}</p></div>
+                    <div class="glass rounded-2xl p-6"><p class="text-muted text-sm">Revenue</p><p class="font-display text-3xl font-bold text-accent">₹${rev}</p></div>
+                </div>`;
+            } else content.innerHTML = '<p class="text-muted">Welcome to your dashboard</p>';
+        }
+        
+        function render_users() { if(currentUser.role !== 'Admin') return; const u = JSON.parse(localStorage.getItem('jm_users')) || []; document.getElementById('dashboardContent').innerHTML = `<div class="glass rounded-2xl p-6 space-y-4">${u.map(x => `<div class="flex justify-between border-b border-border pb-2"><p>${x.name}</p><span class="badge ${x.role==='Admin'?'badge-red':x.role==='Manager'?'badge-blue':'badge-green'}">${x.role}</span></div>`).join('')}</div>`; }
+        function render_allBookings() { renderList('jm_bookings', 'Bookings', false); }
+        function render_bookings() { renderList('jm_bookings', 'Bookings', false); }
+        function render_myBookings() { renderList('jm_bookings', 'Bookings', true); }
+        function render_allOrders() { renderList('jm_orders', 'Orders', false); }
+        function render_orders() { renderList('jm_orders', 'Orders', false); }
+        function render_myOrders() { renderList('jm_orders', 'Orders', true); }
+        
+        function renderList(key, title, mine) {
+            let data = JSON.parse(localStorage.getItem(key)) || [];
+            if(mine) data = data.filter(d => d.userId === currentUser.id);
+            document.getElementById('dashboardContent').innerHTML = `<h3 class="font-display text-xl font-bold mb-6">${title}</h3><div class="space-y-4">${data.length === 0 ? '<p class="text-muted text-center py-8">None</p>' : data.reverse().map(d => `<div class="glass rounded-2xl p-6 flex justify-between items-center"><div><h4 class="font-bold">${d.vehicleName || 'Order #'+d.id.slice(-8)}</h4><p class="text-sm text-muted">${d.createdAt ? new Date(d.createdAt).toLocaleDateString() : ''}</p></div><div class="text-right"><p class="text-accent font-bold">₹${d.totalAmount || d.total}</p><span class="badge ${getStatusBadgeClass(d.status)}">${d.status}</span></div></div>`).join('')}</div>`;
+        }
+        
+        function render_vehicles() { const v = JSON.parse(localStorage.getItem('jm_vehicles')) || []; document.getElementById('dashboardContent').innerHTML = `<div class="flex justify-between mb-6"><h3 class="font-bold text-xl">Vehicles</h3><button onclick="openManageModal('vehicle')" class="btn-primary">Add</button></div><div class="grid sm:grid-cols-3 gap-4">${v.map(x => `<div class="glass rounded-xl p-4 flex justify-between"><div><h4 class="font-bold">${x.name}</h4><p class="text-sm text-muted">${x.type}</p></div><span class="text-accent font-bold">₹${x.pricePerDay}</span></div>`).join('')}</div>`; }
+        function render_menuItems() { const m = JSON.parse(localStorage.getItem('jm_menuItems')) || []; document.getElementById('dashboardContent').innerHTML = `<div class="flex justify-between mb-6"><h3 class="font-bold text-xl">Menu Items</h3><button onclick="openManageModal('menuItem')" class="btn-primary">Add</button></div><div class="grid sm:grid-cols-3 gap-4">${m.map(x => `<div class="glass rounded-xl p-4 flex justify-between"><div><h4 class="font-bold">${x.name}</h4><p class="text-xs text-muted">${x.category}</p></div><span class="text-accent font-bold">₹${x.price}</span></div>`).join('')}</div>`; }
+        
+        function openManageModal(type) { document.getElementById('manageModalTitle').textContent = 'Add ' + type; document.getElementById('manageForm').innerHTML = '<input name="name" class="input-field mb-4" placeholder="Name"><input name="price" type="number" class="input-field" placeholder="Price"><button type="submit" class="btn-primary w-full mt-4">Save</button>'; openModal('manageModal'); }
+        function handleManageSubmit(e) { e.preventDefault(); showToast('Saved!', 'success'); closeModal('manageModal'); }
+
+        // Helpers
+        function openModal(id) { document.getElementById(id).classList.add('active'); document.body.style.overflow = 'hidden'; if(id==='cartModal') renderCartModal(); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); document.body.style.overflow = ''; }
+        function closeModalOnOverlay(e, id) { if(e.target.classList.contains('modal-overlay')) closeModal(id); }
+        function switchModal(f, t) { closeModal(f); setTimeout(() => openModal(t), 100); }
+        function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
+        function showToast(message, type) { const t = document.getElementById('toast'); document.getElementById('toastMessage').textContent = message; t.className = 'toast active ' + type; document.getElementById('toastIcon').innerHTML = type === 'success' ? '<svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>' : '<svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>'; setTimeout(() => t.classList.remove('active'), 3000); }
+        function getStatusBadgeClass(s) { if(['Pending','Preparing'].includes(s)) return 'badge-accent'; if(['Confirmed','Ready','Completed','Delivered'].includes(s)) return 'badge-green'; if(s === 'Cancelled') return 'badge-red'; return 'badge-blue'; }
+        function submitContactForm(e) { e.preventDefault(); showToast('Message sent!', 'success'); e.target.reset(); }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => { initializeData(); updateAuthUI(); loadFeaturedMenu(); });
+    </script>
+</body>
+</html>
